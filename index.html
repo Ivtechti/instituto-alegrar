@@ -8,7 +8,11 @@
       content="Instituto Alegrar - transformação social por meio de projetos para crianças, famílias e comunidades."
     />
     <title>Instituto Alegrar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/atropos@2/atropos.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/atropos@2/atropos.min.js"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -47,6 +51,10 @@
         font-family: "Inter", sans-serif;
         color: #222230;
         background: #fff;
+      }
+
+      section[id] {
+        scroll-margin-top: 104px;
       }
 
       .script {
@@ -121,12 +129,407 @@
         transform: translateY(0) scale(1);
       }
 
+      .motion-gsap .scroll-reveal {
+        transition: none;
+      }
+
       .float-soft {
         animation: floatSoft 4.6s ease-in-out infinite;
       }
 
       .pulse-soft {
         animation: pulseSoft 2.4s ease-in-out infinite;
+      }
+
+      .bubble-btn {
+        --bubble-one: rgba(255, 255, 255, .28);
+        --bubble-two: rgba(255, 200, 0, .26);
+        --bubble-three: rgba(18, 185, 198, .22);
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        transform: translateY(0);
+        transition:
+          transform .28s cubic-bezier(.19, 1, .22, 1),
+          box-shadow .28s ease,
+          background-color .28s ease,
+          color .28s ease;
+      }
+
+      .bubble-on-light {
+        --bubble-one: rgba(244, 43, 127, .18);
+        --bubble-two: rgba(18, 185, 198, .2);
+        --bubble-three: rgba(255, 200, 0, .2);
+      }
+
+      .bubble-btn::before,
+      .bubble-btn::after {
+        content: "";
+        position: absolute;
+        z-index: 0;
+        inset: auto -18% -95% -18%;
+        height: 170%;
+        border-radius: 45% 45% 0 0;
+        opacity: 0;
+        pointer-events: none;
+        filter: saturate(1.2);
+        transition:
+          opacity .32s ease,
+          transform .48s cubic-bezier(.19, 1, .22, 1);
+      }
+
+      .bubble-btn::before {
+        background:
+          radial-gradient(circle at 18% 76%, var(--bubble-one) 0 13%, transparent 14%),
+          radial-gradient(circle at 42% 84%, var(--bubble-two) 0 17%, transparent 18%),
+          radial-gradient(circle at 66% 74%, var(--bubble-three) 0 12%, transparent 13%),
+          radial-gradient(circle at 83% 88%, var(--bubble-one) 0 15%, transparent 16%);
+        transform: translate3d(0, 28%, 0) scale(.96);
+      }
+
+      .bubble-btn::after {
+        inset: auto -10% -115% -10%;
+        background:
+          radial-gradient(circle at 24% 82%, rgba(255, 255, 255, .36) 0 9%, transparent 10%),
+          radial-gradient(circle at 52% 76%, rgba(255, 255, 255, .24) 0 7%, transparent 8%),
+          radial-gradient(circle at 74% 88%, rgba(255, 255, 255, .3) 0 10%, transparent 11%);
+        transform: translate3d(0, 36%, 0) scale(.94);
+      }
+
+      .bubble-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .bubble-btn:hover::before {
+        opacity: 1;
+        transform: translate3d(0, -42%, 0) scale(1.06);
+      }
+
+      .bubble-btn:hover::after {
+        opacity: 1;
+        transform: translate3d(0, -56%, 0) scale(1.08);
+      }
+
+      .bubble-content {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: .5rem;
+      }
+
+      .card-elevate {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        transition:
+          transform .34s cubic-bezier(.19, 1, .22, 1),
+          box-shadow .34s ease,
+          border-color .34s ease,
+          filter .34s ease;
+        will-change: transform, box-shadow, filter;
+      }
+
+      .card-elevate::before {
+        content: "";
+        position: absolute;
+        inset: -18%;
+        z-index: 0;
+        border-radius: inherit;
+        background:
+          radial-gradient(circle at 18% 12%, rgba(255, 255, 255, .34), transparent 30%),
+          linear-gradient(135deg, rgba(244, 43, 127, .18), rgba(18, 185, 198, .16), rgba(255, 200, 0, .14));
+        filter: none;
+        opacity: 0;
+        transform: scale(.94);
+        transition:
+          opacity .34s ease,
+          transform .34s cubic-bezier(.19, 1, .22, 1),
+          filter .34s ease;
+      }
+
+      .card-elevate::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        border-radius: inherit;
+        background: linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, 0) 54%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .34s ease;
+      }
+
+      .card-elevate > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .card-elevate:hover {
+        transform: translateY(-8px);
+        box-shadow:
+          0 30px 76px rgba(34, 34, 48, .18),
+          0 14px 34px rgba(244, 43, 127, .12);
+        filter: saturate(1.04);
+      }
+
+      .card-elevate:hover::before {
+        opacity: 1;
+        transform: scale(1);
+        filter: none;
+      }
+
+      .card-elevate:hover::after {
+        opacity: 1;
+      }
+
+      .image-card {
+        transition:
+          transform .34s cubic-bezier(.19, 1, .22, 1),
+          box-shadow .34s ease,
+          filter .34s ease;
+        will-change: transform, box-shadow, filter;
+      }
+
+      .image-card:hover {
+        transform: translateY(-7px) scale(1.015);
+        box-shadow:
+          0 28px 64px rgba(34, 34, 48, .18),
+          0 12px 28px rgba(18, 185, 198, .13);
+        filter: saturate(1.06) contrast(1.02);
+      }
+
+      .card-hover-only {
+        transform: translateY(0);
+        box-shadow: none;
+        transition:
+          transform .28s cubic-bezier(.19, 1, .22, 1),
+          box-shadow .28s ease,
+          border-color .28s ease;
+      }
+
+      .card-hover-only:hover {
+        transform: translateY(-7px);
+        border-color: rgba(244, 43, 127, .22);
+        box-shadow:
+          0 22px 48px rgba(34, 34, 48, .14),
+          0 10px 20px rgba(18, 185, 198, .08);
+      }
+
+      .motion-atropos {
+        width: 100%;
+        border-radius: .375rem;
+      }
+
+      .motion-atropos-fit {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 72rem;
+      }
+
+      .motion-atropos .atropos-scale,
+      .motion-atropos .atropos-rotate,
+      .motion-atropos .atropos-inner {
+        border-radius: inherit;
+      }
+
+      .motion-atropos .atropos-inner {
+        overflow: visible;
+      }
+
+      .motion-atropos .card-elevate,
+      .motion-atropos .card-hover-only {
+        height: 100%;
+        transform: none !important;
+        box-shadow: none !important;
+        filter: none !important;
+        transition: border-color .24s ease, background-color .24s ease;
+        will-change: auto;
+      }
+
+      .motion-atropos .card-elevate:hover,
+      .motion-atropos .card-hover-only:hover {
+        transform: none !important;
+        box-shadow: none !important;
+        filter: none !important;
+      }
+
+      .motion-atropos .card-hover-only:hover {
+        border-color: rgba(244, 43, 127, .22);
+      }
+
+      .motion-atropos .card-elevate::before,
+      .motion-atropos .card-elevate::after {
+        display: none;
+      }
+
+      .motion-atropos .atropos-shadow {
+        display: none !important;
+        filter: none !important;
+        pointer-events: none !important;
+      }
+
+      .motion-atropos .atropos-highlight {
+        background:
+          radial-gradient(circle at 30% 24%, rgba(255, 255, 255, .32), transparent 30%),
+          linear-gradient(135deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, 0) 52%);
+        pointer-events: none !important;
+      }
+
+      .motion-atropos .bubble-btn {
+        position: relative;
+        z-index: 6;
+        pointer-events: auto;
+      }
+
+      .participation-card {
+        --tilt-x: 0deg;
+        --tilt-y: 0deg;
+        --lift-y: 0px;
+        --shine-x: 50%;
+        --shine-y: 50%;
+        --icon-x: 0px;
+        --icon-y: 0px;
+        --text-x: 0px;
+        --text-y: 0px;
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translate3d(0, var(--lift-y), 0);
+        transform-origin: 50% 50%;
+        transition:
+          transform .38s cubic-bezier(.19, 1, .22, 1),
+          border-color .28s ease,
+          background-color .28s ease;
+      }
+
+      .participation-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        border-radius: inherit;
+        background:
+          radial-gradient(circle at var(--shine-x) var(--shine-y), rgba(255, 255, 255, .48), transparent 22%),
+          radial-gradient(circle at 18% 18%, rgba(244, 43, 127, .12), transparent 30%),
+          radial-gradient(circle at 86% 82%, rgba(18, 185, 198, .12), transparent 34%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .28s ease;
+      }
+
+      .participation-card > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .participation-card > span,
+      .participation-card > h3,
+      .participation-card > p {
+        transition: transform .32s cubic-bezier(.19, 1, .22, 1);
+      }
+
+      .participation-card > span {
+        transform: translate3d(var(--icon-x), var(--icon-y), 0);
+      }
+
+      .participation-card > h3,
+      .participation-card > p {
+        transform: translate3d(var(--text-x), var(--text-y), 0);
+      }
+
+      .participation-card:hover {
+        --lift-y: -6px;
+        border-color: rgba(244, 43, 127, .26);
+        box-shadow: none;
+      }
+
+      .participation-card:hover::before {
+        opacity: 1;
+      }
+
+      .participation-card .bubble-btn {
+        position: relative;
+        z-index: 5;
+        pointer-events: auto;
+      }
+
+      .newsletter-modal .donation-modal-card {
+        overflow: hidden;
+      }
+
+      .newsletter-modal-icon {
+        animation: newsletterFloat 3.4s ease-in-out infinite;
+      }
+
+      .newsletter-modal.is-open .newsletter-modal-icon {
+        animation: newsletterPop .62s cubic-bezier(.19, 1, .22, 1), newsletterFloat 3.4s ease-in-out .62s infinite;
+      }
+
+      .newsletter-modal-accent {
+        animation: newsletterFloat 4.2s ease-in-out infinite;
+      }
+
+      .card-hover-only .bubble-btn {
+        --bubble-one: rgba(244, 43, 127, .34);
+        --bubble-two: rgba(18, 185, 198, .32);
+        --bubble-three: rgba(255, 200, 0, .34);
+      }
+
+      .card-hover-only .bubble-btn:hover::before {
+        opacity: 1;
+        transform: translate3d(0, -50%, 0) scale(1.12);
+      }
+
+      .card-hover-only .bubble-btn:hover::after {
+        opacity: 1;
+        transform: translate3d(0, -66%, 0) scale(1.14);
+      }
+
+      .value-bg-card {
+        display: block;
+        min-height: 420px;
+        background-color: #fff;
+      }
+
+      .value-bg-card img {
+        height: 100%;
+        min-height: 420px;
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .donation-modal {
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+        transition: opacity .24s ease;
+      }
+
+      .donation-modal.is-open {
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
+      }
+
+      .donation-modal-card {
+        transform: translateY(24px) scale(.96);
+        transition: transform .28s cubic-bezier(.19, 1, .22, 1);
+      }
+
+      .donation-modal.is-open .donation-modal-card {
+        transform: translateY(0) scale(1);
+      }
+
+      .pix-copy-pulse {
+        animation: pixCopyPulse .9s ease;
+      }
+
+      @keyframes pixCopyPulse {
+        0% { box-shadow: 0 0 0 0 rgba(98, 191, 79, .36); }
+        100% { box-shadow: 0 0 0 18px rgba(98, 191, 79, 0); }
       }
 
       @keyframes floatSoft {
@@ -139,10 +542,40 @@
         50% { transform: scale(1.08); opacity: 1; }
       }
 
+      @keyframes newsletterPop {
+        0% { transform: translateY(14px) scale(.78) rotate(-8deg); opacity: 0; }
+        68% { transform: translateY(-4px) scale(1.08) rotate(3deg); opacity: 1; }
+        100% { transform: translateY(0) scale(1) rotate(0); opacity: 1; }
+      }
+
+      @keyframes newsletterFloat {
+        0%, 100% { transform: translateY(0) rotate(-2deg); }
+        50% { transform: translateY(-8px) rotate(2deg); }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .scroll-reveal,
         .float-soft,
-        .pulse-soft {
+        .pulse-soft,
+        .donation-modal,
+        .donation-modal-card,
+        .newsletter-modal-icon,
+        .newsletter-modal-accent,
+        .pix-copy-pulse,
+        .bubble-btn,
+        .bubble-btn::before,
+        .bubble-btn::after,
+        .card-elevate,
+        .card-elevate::before,
+        .card-elevate::after,
+        .image-card,
+        .card-hover-only,
+        .participation-card,
+        .participation-card > span,
+        .participation-card > h3,
+        .participation-card > p,
+        .motion-atropos .card-elevate,
+        .motion-atropos .card-hover-only {
           animation: none;
           transition: none;
         }
@@ -150,6 +583,11 @@
         .scroll-reveal {
           opacity: 1;
           transform: none;
+        }
+
+        .motion-atropos .atropos-shadow,
+        .motion-atropos .atropos-highlight {
+          display: none;
         }
       }
     </style>
@@ -164,23 +602,29 @@
           </span>
         </a>
 
-        <div class="hidden items-center gap-8 text-sm font-bold lg:flex">
-          <a class="hover:text-cyan-100" href="#inicio">Início</a>
-          <a class="hover:text-cyan-100" href="#instituto">O Instituto</a>
-          <a class="hover:text-cyan-100" href="#projetos">Nossos Projetos</a>
-          <a class="hover:text-cyan-100" href="#eventos">Eventos</a>
-          <a class="hover:text-cyan-100" href="#ajudar">Como ajudar</a>
-          <a class="hover:text-cyan-100" href="#contato">Contato</a>
+        <div class="hidden items-center gap-7 text-sm font-black lg:flex">
+          <a class="transition hover:text-cyan-100" href="#instituto">Quem somos</a>
+          <a class="transition hover:text-cyan-100" href="#projetos">Nossos pilares</a>
+          <a class="transition hover:text-cyan-100" href="#eventos">Eventos</a>
+          <a class="transition hover:text-cyan-100" href="#ajudar">Participe</a>
         </div>
 
-        <a
-          href="#doar"
-          class="inline-flex h-11 items-center gap-2 rounded-md bg-white px-4 text-sm font-black text-alegrar-pink shadow-sm transition hover:scale-105 hover:bg-cyan-50"
+        <button
+          type="button"
+          data-donation-open
+          class="bubble-btn bubble-on-light inline-flex h-11 items-center gap-2 rounded-md bg-white px-4 text-sm font-black text-alegrar-pink shadow-sm transition hover:bg-cyan-50"
         >
-          <i data-lucide="heart" class="h-5 w-5"></i>
-          Doe agora
-        </a>
+          <span class="bubble-content"><i data-lucide="heart" class="h-5 w-5"></i><span>Doe agora</span></span>
+        </button>
       </nav>
+      <div class="border-t border-white/15 px-4 py-2 lg:hidden">
+        <div class="mx-auto flex max-w-7xl items-center gap-5 overflow-x-auto text-xs font-black text-white/90">
+          <a class="whitespace-nowrap transition hover:text-cyan-100" href="#instituto">Quem somos</a>
+          <a class="whitespace-nowrap transition hover:text-cyan-100" href="#projetos">Nossos pilares</a>
+          <a class="whitespace-nowrap transition hover:text-cyan-100" href="#eventos">Eventos</a>
+          <a class="whitespace-nowrap transition hover:text-cyan-100" href="#ajudar">Participe</a>
+        </div>
+      </div>
     </header>
 
     <main id="inicio">
@@ -209,23 +653,19 @@
               O Instituto Alegrar promove dignidade, oportunidades e esperança para comunidades em situação de vulnerabilidade, fortalecendo vínculos sociais e construindo um futuro mais justo e inclusivo.
             </p>
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#doar" class="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-alegrar-pink px-7 text-sm font-black text-white shadow-soft transition hover:-translate-y-1">
-                <i data-lucide="heart" class="h-5 w-5"></i>
-                Doe
-              </a>
-              <a href="#voluntario" class="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-alegrar-cyan px-7 text-sm font-black text-white shadow-lift transition hover:-translate-y-1">
-                <i data-lucide="users" class="h-5 w-5"></i>
-                Seja voluntário
-              </a>
-              <a href="#projetos" class="inline-flex h-12 items-center justify-center gap-2 rounded-md border-2 border-alegrar-pink bg-white px-7 text-sm font-black text-alegrar-pink transition hover:-translate-y-1 hover:bg-pink-50">
-                <i data-lucide="gift" class="h-5 w-5"></i>
-                Projetos
+              <a
+                href="https://wa.me/5511940748186?text=Ol%C3%A1%2C%20Instituto%20Alegrar%21%20Quero%20entrar%20em%20contato%20para%20saber%20como%20posso%20participar%20ou%20apoiar%20os%20projetos."
+                target="_blank"
+                rel="noreferrer"
+                class="bubble-btn inline-flex h-12 items-center justify-center gap-2 rounded-md bg-alegrar-cyan px-7 text-sm font-black text-white shadow-lift transition"
+              >
+                <span class="bubble-content"><i data-lucide="message-circle" class="h-5 w-5"></i><span>Entrar em contato</span></span>
               </a>
             </div>
           </div>
 
           <div class="relative z-10 scroll-reveal lg:-mr-16 xl:-mr-28" style="--delay: 130ms">
-            <div class="relative overflow-hidden rounded-md bg-white p-3 shadow-soft sm:p-4 lg:rounded-l-[72px] lg:rounded-r-md">
+            <div class="card-elevate relative overflow-hidden rounded-md bg-white p-3 shadow-soft sm:p-4 lg:rounded-l-[72px] lg:rounded-r-md">
               <img
                 src="img-05.jpeg"
                 alt="Equipe do Instituto Alegrar em ação comunitária"
@@ -236,7 +676,7 @@
         </div>
       </section>
 
-      <section id="projetos" class="relative isolate overflow-hidden bg-white px-4 py-16 sm:px-6 lg:px-8">
+      <section id="projetos" class="relative isolate overflow-hidden bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div class="doodle doodle-burst right-10 top-16 hidden text-alegrar-yellow/80 lg:grid">
           <span></span><span></span><span></span>
         </div>
@@ -250,58 +690,52 @@
             </h2>
           </div>
 
-          <div class="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            <article class="scroll-reveal rounded-md bg-alegrar-pink p-7 text-white shadow-soft">
+          <div class="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <article class="card-elevate scroll-reveal rounded-md bg-alegrar-pink p-7 text-white shadow-soft">
               <i data-lucide="users-round" class="h-11 w-11"></i>
               <h3 class="mt-5 text-2xl font-black">Social</h3>
               <p class="mt-3 leading-7 text-white/90">Promovemos inclusão, cidadania e desenvolvimento humano nas comunidades.</p>
-              <a class="mt-5 inline-flex items-center gap-2 font-black" href="#instituto">Saiba mais <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
             </article>
-            <article class="scroll-reveal rounded-md bg-alegrar-cyan p-7 text-white shadow-lift" style="--delay: 90ms">
+            <article class="card-elevate scroll-reveal rounded-md bg-alegrar-cyan p-7 text-white shadow-lift" style="--delay: 90ms">
               <i data-lucide="circle-dot" class="h-11 w-11"></i>
               <h3 class="mt-5 text-2xl font-black">Esportiva</h3>
               <p class="mt-3 leading-7 text-white/90">Incentivamos o esporte como ferramenta de educação, convivência e cidadania.</p>
-              <a class="mt-5 inline-flex items-center gap-2 font-black" href="#eventos">Saiba mais <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
             </article>
-            <article class="scroll-reveal rounded-md bg-alegrar-green p-7 text-white shadow-lift" style="--delay: 180ms">
+            <article class="card-elevate scroll-reveal rounded-md bg-alegrar-green p-7 text-white shadow-lift" style="--delay: 180ms">
               <i data-lucide="leaf" class="h-11 w-11"></i>
               <h3 class="mt-5 text-2xl font-black">Ambiental</h3>
               <p class="mt-3 leading-7 text-white/90">Cuidamos do meio ambiente e incentivamos práticas sustentáveis.</p>
-              <a class="mt-5 inline-flex items-center gap-2 font-black" href="#instituto">Saiba mais <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
             </article>
-            <article class="scroll-reveal rounded-md bg-alegrar-yellow p-7 text-white shadow-lift" style="--delay: 270ms">
+            <article class="card-elevate scroll-reveal rounded-md bg-alegrar-yellow p-7 text-white shadow-lift" style="--delay: 270ms">
               <i data-lucide="heart-pulse" class="h-11 w-11"></i>
               <h3 class="mt-5 text-2xl font-black">Saúde</h3>
               <p class="mt-3 leading-7 text-white/90">Ações que promovem bem-estar, cuidado e qualidade de vida.</p>
-              <a class="mt-5 inline-flex items-center gap-2 font-black" href="#ajudar">Saiba mais <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
             </article>
           </div>
         </div>
       </section>
 
-      <section id="eventos" class="relative isolate overflow-hidden bg-white px-4 pb-16 sm:px-6 lg:px-8">
+      <section id="eventos" class="relative isolate overflow-hidden bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div class="doodle right-8 top-2 hidden text-alegrar-pink md:block">
           <i data-lucide="heart" class="h-16 w-16 stroke-[1.6]"></i>
         </div>
         <div class="doodle doodle-burst bottom-20 left-10 hidden text-alegrar-cyan/80 md:grid">
           <span></span><span></span><span></span>
         </div>
-        <div class="mx-auto max-w-6xl rounded-md bg-alegrar-pink p-5 text-white shadow-soft sm:p-8 lg:p-9">
+        <div class="card-elevate mx-auto max-w-6xl rounded-md bg-alegrar-pink p-5 text-white shadow-soft sm:p-8 lg:p-9">
           <div class="grid items-center gap-9 lg:grid-cols-[.95fr_1.05fr]">
             <div class="scroll-reveal">
-              <span class="inline-flex rounded-md bg-alegrar-cyan px-4 py-2 text-xs font-black uppercase tracking-wide">Evento em destaque</span>
-              <h2 class="mt-5 text-4xl font-black leading-tight sm:text-5xl">Festa na Comunidade</h2>
+              <span class="inline-flex rounded-md bg-alegrar-cyan px-4 py-2 text-xs font-black uppercase tracking-wide">Viva essa experiência</span>
+              <h2 class="mt-5 text-4xl font-black leading-tight sm:text-5xl">Venha alegrar a comunidade com a gente</h2>
               <p class="mt-4 max-w-xl text-lg leading-8 text-white/90">
-                Projeto de cidadania e inclusão social realizado no Dia das Crianças, com cultura, lazer, convivência comunitária e fortalecimento de vínculos sociais.
+                Um encontro para crianças, famílias, voluntários e parceiros viverem um dia de brincadeiras, cultura, afeto e presença. Cada detalhe é pensado para criar memórias felizes e aproximar a comunidade de quem quer fazer parte dessa transformação.
               </p>
-              <div class="mt-7 grid gap-4 text-sm font-bold sm:grid-cols-3">
-                <div class="flex items-center gap-3"><i data-lucide="calendar-days" class="h-6 w-6"></i><span>27/11/2024</span></div>
-                <div class="flex items-center gap-3"><i data-lucide="map-pin" class="h-6 w-6"></i><span>Parque do Carmo</span></div>
-                <div class="flex items-center gap-3"><i data-lucide="smile" class="h-6 w-6"></i><span>300 crianças</span></div>
+              <div class="mt-6 grid gap-3 text-sm font-bold text-white/90 sm:grid-cols-2">
+                <div class="flex items-center gap-3 rounded-md bg-white/12 p-3"><i data-lucide="party-popper" class="h-5 w-5"></i><span>Atividades culturais</span></div>
+                <div class="flex items-center gap-3 rounded-md bg-white/12 p-3"><i data-lucide="smile-plus" class="h-5 w-5"></i><span>Recreação infantil</span></div>
+                <div class="flex items-center gap-3 rounded-md bg-white/12 p-3"><i data-lucide="users-round" class="h-5 w-5"></i><span>Convivência comunitária</span></div>
+                <div class="flex items-center gap-3 rounded-md bg-white/12 p-3"><i data-lucide="hand-heart" class="h-5 w-5"></i><span>Voluntariado em ação</span></div>
               </div>
-              <a href="#voluntario" class="mt-8 inline-flex h-12 items-center justify-center rounded-md border-2 border-white px-8 text-sm font-black text-white transition hover:bg-white hover:text-alegrar-pink">
-                Quero participar
-              </a>
             </div>
 
             <div class="relative min-h-[390px] scroll-reveal" style="--delay: 140ms">
@@ -309,14 +743,19 @@
               <img src="img-04.jpeg" alt="Espetáculo infantil no evento" class="absolute left-[24%] top-16 h-56 w-64 rotate-[5deg] rounded-md border-8 border-white object-cover shadow-2xl sm:w-72" />
               <img src="img-02.jpeg" alt="Crianças e famílias na Festa na Comunidade" class="absolute bottom-0 right-0 h-60 w-56 rotate-[8deg] rounded-md border-8 border-white object-cover shadow-2xl sm:h-64 sm:w-64" />
               <div class="absolute bottom-14 left-1/2 flex h-32 w-32 -translate-x-1/2 items-center justify-center rounded-full bg-alegrar-cyan p-5 text-center text-base font-black leading-tight shadow-xl float-soft">
-                Participe desse dia especial!
+                Faça parte desse encontro!
               </div>
             </div>
           </div>
         </div>
+        <div class="scroll-reveal mt-7 flex justify-center" style="--delay: 180ms">
+          <a href="https://wa.me/5511940748186?text=Ol%C3%A1%2C%20Instituto%20Alegrar%21%20Quero%20participar%20dos%20eventos%20e%20saber%20como%20posso%20ajudar." target="_blank" rel="noreferrer" class="bubble-btn inline-flex h-12 items-center justify-center gap-2 rounded-md bg-alegrar-pink px-8 text-sm font-black text-white shadow-soft transition hover:bg-alegrar-pinkDark">
+            <span class="bubble-content"><i data-lucide="message-circle" class="h-5 w-5"></i><span>Quero participar</span></span>
+          </a>
+        </div>
       </section>
 
-      <section id="instituto" class="relative isolate overflow-hidden bg-alegrar-cream px-4 py-16 sm:px-6 lg:px-8">
+      <section id="instituto" class="relative isolate overflow-hidden bg-white px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
         <div class="doodle -right-6 top-12 hidden text-alegrar-cyan/55 md:block">
           <i data-lucide="circle" class="h-28 w-28 stroke-[10]"></i>
         </div>
@@ -324,20 +763,24 @@
           <span></span><span></span><span></span>
         </div>
         <div class="mx-auto max-w-7xl">
-          <div class="grid gap-8 lg:grid-cols-[.85fr_1.15fr] lg:items-center">
-            <div class="scroll-reveal">
-              <h2 class="text-3xl font-black sm:text-4xl">O Instituto <span class="script text-alegrar-cyan">Alegrar</span></h2>
-              <p class="mt-5 text-lg leading-8 text-slate-700">
-                Somos uma organização da sociedade civil sem fins lucrativos criada para promover transformação social por meio de ações nas áreas da infância, esporte, saúde, assistência social, meio ambiente e desenvolvimento humano.
+          <div class="scroll-reveal flex min-h-[560px] flex-col justify-center">
+            <span class="text-sm font-black uppercase text-alegrar-pink">Quem somos</span>
+            <h2 class="mt-3 max-w-5xl text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
+              O Instituto <span class="script text-alegrar-cyan">Alegrar</span> existe para transformar cuidado em oportunidade.
+            </h2>
+            <div class="mt-8 grid gap-7 text-lg leading-8 text-slate-700 lg:grid-cols-2">
+              <p>
+                O Instituto Alegrar é uma organização da sociedade civil sem fins lucrativos, criada com o propósito de promover transformação social por meio de ações voltadas à infância, ao esporte, à saúde, à assistência social, ao meio ambiente e ao desenvolvimento humano.
               </p>
-              <p class="mt-4 text-lg leading-8 text-slate-700">
-                Nosso compromisso é levar dignidade, oportunidades e esperança para comunidades em situação de vulnerabilidade.
+              <p>
+                Nosso compromisso é levar dignidade, oportunidades e esperança para comunidades em situação de vulnerabilidade, fortalecendo laços sociais e construindo um futuro mais justo, inclusivo e sustentável.
               </p>
-            </div>
-            <div class="grid gap-5 sm:grid-cols-3">
-              <img class="scroll-reveal aspect-square rounded-md object-cover shadow-soft" src="nossa-missão.jpeg" alt="Nossa missão do Instituto Alegrar" />
-              <img class="scroll-reveal aspect-square rounded-md object-cover shadow-soft" src="nossa-visão.jpeg" alt="Nossa visão do Instituto Alegrar" style="--delay: 100ms" />
-              <img class="scroll-reveal aspect-square rounded-md object-cover shadow-soft" src="nossos-valores.jpeg" alt="Nossos valores do Instituto Alegrar" style="--delay: 200ms" />
+              <p>
+                Cada projeto nasce para aproximar pessoas, parceiros e famílias em torno de experiências que acolhem, educam e criam pertencimento. A alegria é o ponto de partida, mas o objetivo é mais profundo: abrir caminhos para cidadania, convivência, bem-estar e desenvolvimento comunitário.
+              </p>
+              <p>
+                Atuamos com responsabilidade, empatia e transparência para que doações, voluntariado e parcerias se convertam em ações concretas, capazes de impactar a vida de crianças e famílias com presença, escuta e continuidade.
+              </p>
             </div>
           </div>
         </div>
@@ -350,20 +793,14 @@
         </div>
         <div class="mx-auto max-w-7xl">
           <div class="grid gap-5 lg:grid-cols-3">
-            <article class="scroll-reveal rounded-md border border-pink-100 bg-white p-7 shadow-soft">
-              <i data-lucide="target" class="h-10 w-10 text-alegrar-pink"></i>
-              <h3 class="mt-5 text-2xl font-black">Missão</h3>
-              <p class="mt-3 leading-8 text-slate-700">Promover impacto social positivo através de projetos e ações que desenvolvam comunidades, valorizem pessoas e incentivem cidadania, inclusão e bem-estar.</p>
+            <article class="value-bg-card card-hover-only scroll-reveal overflow-hidden rounded-md border border-slate-100" aria-label="Nossa missão">
+              <img src="nossa-missão.jpeg" alt="Nossa missão do Instituto Alegrar" />
             </article>
-            <article class="scroll-reveal rounded-md border border-cyan-100 bg-white p-7 shadow-lift" style="--delay: 100ms">
-              <i data-lucide="eye" class="h-10 w-10 text-alegrar-cyan"></i>
-              <h3 class="mt-5 text-2xl font-black">Visão</h3>
-              <p class="mt-3 leading-8 text-slate-700">Ser referência nacional em transformação social, inovação comunitária e desenvolvimento humano sustentável.</p>
+            <article class="value-bg-card card-hover-only scroll-reveal overflow-hidden rounded-md border border-slate-100" style="--delay: 100ms" aria-label="Nossa visão">
+              <img src="nossa-visão.jpeg" alt="Nossa visão do Instituto Alegrar" />
             </article>
-            <article class="scroll-reveal rounded-md border border-yellow-100 bg-white p-7 shadow-lift" style="--delay: 200ms">
-              <i data-lucide="hand-heart" class="h-10 w-10 text-alegrar-yellow"></i>
-              <h3 class="mt-5 text-2xl font-black">Valores</h3>
-              <p class="mt-3 leading-8 text-slate-700">Solidariedade, inclusão, transparência, respeito, empatia, sustentabilidade e compromisso social.</p>
+            <article class="value-bg-card card-hover-only scroll-reveal overflow-hidden rounded-md border border-slate-100" style="--delay: 200ms" aria-label="Nossos valores">
+              <img src="nossos-valores.jpeg" alt="Nossos valores do Instituto Alegrar" />
             </article>
           </div>
         </div>
@@ -382,29 +819,37 @@
             <p class="mt-3 text-slate-600">Escolha como você quer fazer a diferença.</p>
           </div>
           <div class="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            <article id="voluntario" class="scroll-reveal rounded-md border border-slate-100 bg-white p-6 shadow-soft">
+            <article id="voluntario" class="participation-card card-hover-only scroll-reveal rounded-md border border-slate-100 bg-white p-6">
               <span class="flex h-14 w-14 items-center justify-center rounded-full bg-alegrar-pink text-white"><i data-lucide="users" class="h-7 w-7"></i></span>
               <h3 class="mt-5 text-xl font-black">Quero ser voluntário</h3>
               <p class="mt-2 text-sm leading-6 text-slate-600">Doe seu tempo e talento para impactar vidas.</p>
-              <a href="#contato" class="mt-5 inline-flex items-center gap-2 text-sm font-black text-alegrar-pink">Quero ajudar <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+              <a href="https://wa.me/5511940748186?text=Ol%C3%A1%2C%20Instituto%20Alegrar%21%20Quero%20ajudar%20como%20volunt%C3%A1rio." target="_blank" rel="noreferrer" class="bubble-btn bubble-on-light mt-5 inline-flex items-center gap-2 rounded-md bg-pink-50 px-3 py-2 text-sm font-black text-alegrar-pink">
+                <span class="bubble-content">Quero ajudar <i data-lucide="arrow-right" class="h-4 w-4"></i></span>
+              </a>
             </article>
-            <article id="doar" class="scroll-reveal rounded-md border border-slate-100 bg-white p-6 shadow-lift" style="--delay: 90ms">
+            <article id="doar" class="participation-card card-hover-only scroll-reveal rounded-md border border-slate-100 bg-white p-6" style="--delay: 90ms">
               <span class="flex h-14 w-14 items-center justify-center rounded-full bg-alegrar-cyan text-white"><i data-lucide="badge-dollar-sign" class="h-7 w-7"></i></span>
               <h3 class="mt-5 text-xl font-black">Quero fazer uma doação</h3>
               <p class="mt-2 text-sm leading-6 text-slate-600">Sua contribuição ajuda a manter nossos projetos.</p>
-              <a href="#contato" class="mt-5 inline-flex items-center gap-2 text-sm font-black text-alegrar-cyan">Doe agora <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+              <button type="button" data-donation-open class="bubble-btn bubble-on-light mt-5 inline-flex items-center gap-2 rounded-md bg-cyan-50 px-3 py-2 text-sm font-black text-alegrar-cyan">
+                <span class="bubble-content">Doe agora <i data-lucide="arrow-right" class="h-4 w-4"></i></span>
+              </button>
             </article>
-            <article class="scroll-reveal rounded-md border border-slate-100 bg-white p-6 shadow-lift" style="--delay: 180ms">
+            <article class="participation-card card-hover-only scroll-reveal rounded-md border border-slate-100 bg-white p-6" style="--delay: 180ms">
               <span class="flex h-14 w-14 items-center justify-center rounded-full bg-alegrar-green text-white"><i data-lucide="gift" class="h-7 w-7"></i></span>
               <h3 class="mt-5 text-xl font-black">Quero doar produtos</h3>
               <p class="mt-2 text-sm leading-6 text-slate-600">Alimentos, roupas e materiais fazem a diferença.</p>
-              <a href="#contato" class="mt-5 inline-flex items-center gap-2 text-sm font-black text-alegrar-green">Saiba como doar <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+              <a href="https://wa.me/5511940748186?text=Ol%C3%A1%2C%20Instituto%20Alegrar%21%20Quero%20saber%20como%20doar%20produtos%20para%20os%20projetos." target="_blank" rel="noreferrer" class="bubble-btn bubble-on-light mt-5 inline-flex items-center gap-2 rounded-md bg-green-50 px-3 py-2 text-sm font-black text-alegrar-green">
+                <span class="bubble-content">Saiba como doar <i data-lucide="arrow-right" class="h-4 w-4"></i></span>
+              </a>
             </article>
-            <article class="scroll-reveal rounded-md border border-slate-100 bg-white p-6 shadow-lift" style="--delay: 270ms">
+            <article class="participation-card card-hover-only scroll-reveal rounded-md border border-slate-100 bg-white p-6" style="--delay: 270ms">
               <span class="flex h-14 w-14 items-center justify-center rounded-full bg-alegrar-yellow text-white"><i data-lucide="user-round-plus" class="h-7 w-7"></i></span>
               <h3 class="mt-5 text-xl font-black">Quero apoiar uma ação</h3>
               <p class="mt-2 text-sm leading-6 text-slate-600">Empresas e parceiros transformam junto com a gente.</p>
-              <a href="#contato" class="mt-5 inline-flex items-center gap-2 text-sm font-black text-yellow-500">Quero apoiar <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+              <a href="https://wa.me/5511940748186?text=Ol%C3%A1%2C%20Instituto%20Alegrar%21%20Quero%20apoiar%20uma%20a%C3%A7%C3%A3o%20do%20Instituto." target="_blank" rel="noreferrer" class="bubble-btn bubble-on-light mt-5 inline-flex items-center gap-2 rounded-md bg-yellow-50 px-3 py-2 text-sm font-black text-yellow-500">
+                <span class="bubble-content">Quero apoiar <i data-lucide="arrow-right" class="h-4 w-4"></i></span>
+              </a>
             </article>
           </div>
         </div>
@@ -414,7 +859,7 @@
         <div class="doodle right-6 top-6 hidden text-alegrar-pink/70 md:block">
           <i data-lucide="heart" class="h-16 w-16 stroke-[1.5]"></i>
         </div>
-        <div class="mx-auto max-w-6xl rounded-md bg-pink-50 px-5 py-8 shadow-soft scroll-reveal sm:px-8">
+        <div class="card-hover-only mx-auto max-w-6xl rounded-md border border-pink-100 bg-pink-50 px-5 py-8 scroll-reveal sm:px-8">
           <h2 class="text-center text-2xl font-black text-alegrar-ink sm:text-3xl">
             Nossos números que <span class="script text-alegrar-pink">inspiram</span>
           </h2>
@@ -423,7 +868,7 @@
               <i data-lucide="smile" class="h-12 w-12 shrink-0 text-alegrar-pink"></i>
               <div>
                 <strong class="block text-3xl font-black text-alegrar-pink">
-                  <span class="counter" data-count="8" data-prefix="+" data-suffix=" mil">0</span>
+                  <span class="counter" data-count="8000" data-prefix="+" data-format="mil">0</span>
                 </strong>
                 <span class="text-sm font-bold text-slate-600">pessoas impactadas diretamente</span>
               </div>
@@ -470,10 +915,12 @@
               <p class="text-sm text-white/90">Receba novidades, convites especiais e chamadas de voluntariado.</p>
             </div>
           </div>
-          <form class="flex w-full max-w-xl flex-col gap-3 sm:flex-row">
+          <form class="flex w-full max-w-xl flex-col gap-3 sm:flex-row" novalidate>
             <label for="email" class="sr-only">Seu melhor e-mail</label>
-            <input id="email" type="email" placeholder="Seu melhor e-mail" class="h-12 flex-1 rounded-md border-0 px-5 text-alegrar-ink outline-none ring-2 ring-white/30 focus:ring-alegrar-pink" />
-            <button class="h-12 rounded-md bg-alegrar-pink px-7 text-sm font-black text-white transition hover:bg-alegrar-pinkDark" type="submit">Quero receber!</button>
+            <input id="email" type="email" required placeholder="Seu melhor e-mail" class="h-12 flex-1 rounded-md border-0 px-5 text-alegrar-ink outline-none ring-2 ring-white/30 focus:ring-alegrar-pink" />
+            <button class="bubble-btn h-12 rounded-md bg-alegrar-pink px-7 text-sm font-black text-white transition hover:bg-alegrar-pinkDark" type="submit">
+              <span class="bubble-content">Quero receber!</span>
+            </button>
           </form>
           <div class="flex items-center gap-4 lg:pl-4">
             <span class="whitespace-nowrap text-sm font-black">Siga o Alegrar</span>
@@ -505,94 +952,569 @@
         </div>
       </div>
 
-      <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
-        <div>
-          <img src="logo.jpeg" alt="Instituto Alegrar" class="h-20 w-20 rounded-full object-cover ring-2 ring-white" />
-          <p class="script mt-5 text-2xl leading-tight text-cyan-100">Transformamos vidas com alegria e propósito!</p>
+      <div class="mx-auto flex max-w-7xl flex-col items-center justify-center gap-6 px-4 py-7 text-center sm:px-6 md:flex-row md:justify-between md:text-left lg:px-8">
+        <div class="flex flex-col items-center gap-3 md:flex-row md:text-left">
+          <img src="logo.jpeg" alt="Instituto Alegrar" class="h-16 w-16 rounded-full object-cover ring-2 ring-white" />
+          <p class="script max-w-xs text-xl leading-tight text-cyan-100">Transformamos vidas com alegria e propósito!</p>
         </div>
-        <div>
-          <h3 class="font-black">Links rápidos</h3>
-          <div class="mt-4 grid gap-2 text-sm text-white/85">
-            <a href="#instituto">O Instituto</a>
-            <a href="#projetos">Nossos Projetos</a>
-            <a href="#eventos">Eventos</a>
-            <a href="#ajudar">Como ajudar</a>
-          </div>
-        </div>
-        <div>
-          <h3 class="font-black">Projetos</h3>
-          <div class="mt-4 grid gap-2 text-sm text-white/85">
-            <span>Festa na Comunidade</span>
-            <span>Páscoa Solidária</span>
-            <span>Apadrinhe uma Criança</span>
-            <span>Natal com Alegria</span>
-          </div>
-        </div>
-        <div>
+        <div class="text-center md:text-left">
           <h3 class="font-black">Fale com a gente</h3>
-          <div class="mt-4 grid gap-3 text-sm text-white/90">
-            <a class="flex items-center gap-3" href="mailto:alegrarinstituto@gmail.com"><i data-lucide="mail" class="h-5 w-5"></i> alegrarinstituto@gmail.com</a>
-            <a class="flex items-center gap-3" href="https://www.instagram.com/alegrarinstituto" target="_blank" rel="noreferrer"><i data-lucide="instagram" class="h-5 w-5"></i> @alegrarinstituto</a>
-            <span class="flex items-center gap-3"><i data-lucide="badge-dollar-sign" class="h-5 w-5"></i> Pix: alegrarinstituto@gmail.com</span>
+          <div class="mt-3 flex flex-col items-center gap-2 text-sm text-white/90 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
+            <a class="inline-flex items-center gap-2" href="mailto:alegrarinstituto@gmail.com"><i data-lucide="mail" class="h-4 w-4"></i> alegrarinstituto@gmail.com</a>
+            <a class="inline-flex items-center gap-2" href="https://www.instagram.com/alegrarinstituto" target="_blank" rel="noreferrer"><i data-lucide="instagram" class="h-4 w-4"></i> @alegrarinstituto</a>
+            <span class="inline-flex items-center gap-2"><i data-lucide="badge-dollar-sign" class="h-4 w-4"></i> Pix: alegrarinstituto@gmail.com</span>
           </div>
         </div>
       </div>
-      <div class="border-t border-white/15 px-4 py-5 text-center text-sm text-white/75">
+      <div class="border-t border-white/15 px-4 py-4 text-center text-sm text-white/75">
         © 2026 Instituto Alegrar. Todos os direitos reservados.
       </div>
     </footer>
+
+    <div
+      id="donationModal"
+      class="donation-modal fixed inset-0 z-[80] flex items-center justify-center bg-alegrar-ink/70 px-4 py-8 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="donationModalTitle"
+      aria-hidden="true"
+    >
+      <div class="absolute inset-0" data-donation-close aria-hidden="true"></div>
+      <div class="donation-modal-card relative w-full max-w-lg overflow-hidden rounded-md bg-white text-alegrar-ink shadow-2xl">
+        <div class="absolute right-0 top-0 h-32 w-32 translate-x-12 -translate-y-12 rounded-full bg-alegrar-yellow/55"></div>
+        <div class="absolute bottom-0 left-0 h-28 w-28 -translate-x-12 translate-y-12 rounded-full bg-alegrar-cyan/25"></div>
+        <div class="relative p-6 sm:p-8">
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <img src="logo.jpeg" alt="Instituto Alegrar" class="h-16 w-16 rounded-full object-cover ring-4 ring-pink-100" />
+              <div>
+                <span class="text-sm font-black text-alegrar-cyan">Doação via Pix</span>
+                <h2 id="donationModalTitle" class="text-2xl font-black leading-tight">Sua ajuda mantém a alegria chegando.</h2>
+              </div>
+            </div>
+            <button
+              type="button"
+              data-donation-close
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600 transition hover:bg-pink-50 hover:text-alegrar-pink"
+              aria-label="Fechar doação"
+            >
+              <i data-lucide="x" class="h-5 w-5"></i>
+            </button>
+          </div>
+
+          <p class="mt-5 text-base leading-7 text-slate-700">
+            Copie a chave Pix abaixo, cole no aplicativo do seu banco e contribua com os projetos do Instituto Alegrar.
+          </p>
+
+          <div id="pixBox" class="mt-6 rounded-md border-2 border-dashed border-pink-200 bg-pink-50 p-4">
+            <span class="block text-xs font-black uppercase text-alegrar-pink">Chave Pix</span>
+            <strong id="pixKeyText" class="mt-2 block break-all text-xl font-black text-alegrar-ink sm:text-2xl">alegrarinstituto@gmail.com</strong>
+          </div>
+
+          <button
+            id="copyPixModalButton"
+            type="button"
+            class="bubble-btn mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-alegrar-pink px-5 text-sm font-black text-white shadow-soft transition hover:bg-alegrar-pinkDark"
+          >
+            <span class="bubble-content"><i data-lucide="copy" class="h-5 w-5"></i><span>Copiar chave Pix</span></span>
+          </button>
+
+          <p id="copyPixFeedback" class="mt-3 min-h-6 text-center text-sm font-bold text-alegrar-green" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="newsletterModal"
+      class="donation-modal newsletter-modal fixed inset-0 z-[90] flex items-center justify-center bg-alegrar-ink/70 px-4 py-8 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="newsletterModalTitle"
+      aria-hidden="true"
+    >
+      <div class="absolute inset-0" data-newsletter-close aria-hidden="true"></div>
+      <div class="donation-modal-card relative w-full max-w-md overflow-hidden rounded-md bg-white text-alegrar-ink shadow-2xl">
+        <div class="newsletter-modal-accent absolute right-0 top-0 h-32 w-32 translate-x-14 -translate-y-14 rounded-full bg-alegrar-yellow/60"></div>
+        <div class="newsletter-modal-accent absolute bottom-0 left-0 h-28 w-28 -translate-x-12 translate-y-12 rounded-full bg-alegrar-cyan/25"></div>
+        <div class="relative p-6 text-center sm:p-8">
+          <button
+            type="button"
+            data-newsletter-close
+            class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-md bg-slate-100 text-slate-600 transition hover:bg-pink-50 hover:text-alegrar-pink"
+            aria-label="Fechar inscrição"
+          >
+            <i data-lucide="x" class="h-5 w-5"></i>
+          </button>
+
+          <div id="newsletterModalIcon" class="newsletter-modal-icon mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-alegrar-pink text-white ring-8 ring-pink-100">
+            <i data-lucide="mail-check" class="h-10 w-10"></i>
+          </div>
+          <span id="newsletterModalEyebrow" class="mt-5 block text-sm font-black uppercase text-alegrar-cyan">Novidades do Alegrar</span>
+          <h2 id="newsletterModalTitle" class="mt-2 text-2xl font-black leading-tight">Inscrição confirmada!</h2>
+          <p id="newsletterModalText" class="mt-4 text-base leading-7 text-slate-700">
+            Você vai receber novidades, convites e chamadas de voluntariado na sua caixa de entrada.
+          </p>
+
+          <button
+            type="button"
+            data-newsletter-close
+            class="bubble-btn mt-6 inline-flex h-12 w-full items-center justify-center rounded-md bg-alegrar-cyan px-5 text-sm font-black text-white shadow-lift transition hover:bg-cyan-600"
+          >
+            <span class="bubble-content">Entendi</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
     <script>
       if (window.lucide) {
         lucide.createIcons();
       }
 
+      const pixKey = "alegrarinstituto@gmail.com";
+      const donationModal = document.querySelector("#donationModal");
+      const copyPixModalButton = document.querySelector("#copyPixModalButton");
+      const copyPixFeedback = document.querySelector("#copyPixFeedback");
+      const pixBox = document.querySelector("#pixBox");
+      const newsletterForm = document.querySelector("footer form");
+      const newsletterInput = document.querySelector("#email");
+      const newsletterModal = document.querySelector("#newsletterModal");
+      const newsletterModalIcon = document.querySelector("#newsletterModalIcon");
+      const newsletterModalEyebrow = document.querySelector("#newsletterModalEyebrow");
+      const newsletterModalTitle = document.querySelector("#newsletterModalTitle");
+      const newsletterModalText = document.querySelector("#newsletterModalText");
+
+      function lockPageScroll() {
+        document.body.classList.add("overflow-hidden");
+      }
+
+      function unlockPageScroll() {
+        const hasOpenModal = document.querySelector(".donation-modal.is-open");
+
+        if (!hasOpenModal) {
+          document.body.classList.remove("overflow-hidden");
+        }
+      }
+
+      function openDonationModal() {
+        donationModal.classList.add("is-open");
+        donationModal.setAttribute("aria-hidden", "false");
+        lockPageScroll();
+        copyPixFeedback.textContent = "";
+        window.setTimeout(() => copyPixModalButton.focus(), 80);
+      }
+
+      function closeDonationModal() {
+        donationModal.classList.remove("is-open");
+        donationModal.setAttribute("aria-hidden", "true");
+        unlockPageScroll();
+      }
+
+      function openNewsletterModal(status, email = "") {
+        const isSuccess = status === "success";
+        const isInvalid = status === "invalid";
+
+        newsletterModalIcon.className = `newsletter-modal-icon mx-auto flex h-20 w-20 items-center justify-center rounded-full text-white ring-8 ${isSuccess ? "bg-alegrar-green ring-green-100" : "bg-alegrar-pink ring-pink-100"}`;
+        newsletterModalIcon.innerHTML = `<i data-lucide="${isSuccess ? "mail-check" : "mail"}" class="h-10 w-10"></i>`;
+        newsletterModalEyebrow.textContent = isSuccess ? "Inscrição recebida" : "Falta só um detalhe";
+        newsletterModalTitle.textContent = isSuccess ? "Obrigado por se inscrever!" : isInvalid ? "Informe um e-mail válido." : "Preencha seu melhor e-mail.";
+        newsletterModalText.textContent = isSuccess
+          ? `${email} vai receber novidades, convites e chamadas de voluntariado na caixa de entrada.`
+          : isInvalid
+            ? "Confira o e-mail digitado e tente novamente para receber as novidades do Instituto Alegrar."
+            : "Digite seu e-mail no campo Fique por dentro para receber novidades, convites e chamadas de voluntariado.";
+
+        newsletterModal.classList.add("is-open");
+        newsletterModal.setAttribute("aria-hidden", "false");
+        lockPageScroll();
+
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+
+        window.setTimeout(() => {
+          newsletterModal.querySelector("[data-newsletter-close]:not(.absolute)")?.focus();
+        }, 80);
+      }
+
+      function closeNewsletterModal() {
+        newsletterModal.classList.remove("is-open");
+        newsletterModal.setAttribute("aria-hidden", "true");
+        unlockPageScroll();
+      }
+
+      async function copyPixKey() {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(pixKey);
+          return;
+        }
+
+        const textarea = document.createElement("textarea");
+        textarea.value = pixKey;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+      }
+
+      document.querySelectorAll("[data-donation-open]").forEach((button) => {
+        button.addEventListener("click", openDonationModal);
+      });
+
+      document.querySelectorAll("[data-donation-close]").forEach((button) => {
+        button.addEventListener("click", closeDonationModal);
+      });
+
+      document.querySelectorAll("[data-newsletter-close]").forEach((button) => {
+        button.addEventListener("click", () => {
+          closeNewsletterModal();
+
+          if (newsletterInput.getAttribute("aria-invalid") === "true") {
+            newsletterInput.focus();
+          }
+        });
+      });
+
+      newsletterInput.addEventListener("input", () => {
+        if (newsletterInput.value.trim()) {
+          newsletterInput.removeAttribute("aria-invalid");
+        }
+      });
+
+      copyPixModalButton.addEventListener("click", async () => {
+        try {
+          await copyPixKey();
+          copyPixFeedback.textContent = "Chave Pix copiada.";
+          copyPixModalButton.innerHTML = '<span class="bubble-content"><i data-lucide="check" class="h-5 w-5"></i><span>Chave copiada</span></span>';
+          pixBox.classList.remove("pix-copy-pulse");
+          void pixBox.offsetWidth;
+          pixBox.classList.add("pix-copy-pulse");
+
+          if (window.lucide) {
+            lucide.createIcons();
+          }
+
+          window.setTimeout(() => {
+            copyPixModalButton.innerHTML = '<span class="bubble-content"><i data-lucide="copy" class="h-5 w-5"></i><span>Copiar chave Pix</span></span>';
+            if (window.lucide) {
+              lucide.createIcons();
+            }
+          }, 2400);
+        } catch (error) {
+          copyPixFeedback.textContent = "Não foi possível copiar automaticamente. Selecione a chave Pix manualmente.";
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && donationModal.classList.contains("is-open")) {
+          closeDonationModal();
+        }
+
+        if (event.key === "Escape" && newsletterModal.classList.contains("is-open")) {
+          closeNewsletterModal();
+        }
+      });
+
       function animateCounter(counter) {
         if (counter.dataset.animated === "true") return;
 
         counter.dataset.animated = "true";
         const target = Number(counter.dataset.count || 0);
-        const prefix = counter.dataset.prefix || "";
-        const suffix = counter.dataset.suffix || "";
-        const duration = 1300;
+        const duration = Number(counter.dataset.duration || 1700);
         const start = performance.now();
+
+        function formatCounterValue(value, isFinal = false) {
+          const prefix = counter.dataset.prefix || "";
+          const suffix = counter.dataset.suffix || "";
+
+          if (counter.dataset.format === "mil") {
+            const thousands = value / 1000;
+            const formatted = isFinal
+              ? Math.round(thousands).toLocaleString("pt-BR")
+              : thousands.toLocaleString("pt-BR", { maximumFractionDigits: 1 });
+
+            return `${prefix}${formatted} mil${suffix}`;
+          }
+
+          return `${prefix}${value.toLocaleString("pt-BR")}${suffix}`;
+        }
 
         function tick(now) {
           const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
+          const eased = 1 - Math.pow(1 - progress, 4);
           const value = Math.round(target * eased);
-          counter.textContent = `${prefix}${value}${suffix}`;
+          counter.textContent = formatCounterValue(value, progress === 1);
 
           if (progress < 1) {
             requestAnimationFrame(tick);
           }
         }
 
+        counter.textContent = formatCounterValue(0);
         requestAnimationFrame(tick);
       }
 
-      const revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              entry.target.querySelectorAll(".counter").forEach(animateCounter);
-              revealObserver.unobserve(entry.target);
-            }
+      function prepareCardDepth(card) {
+        Array.from(card.children).forEach((child, index) => {
+          if (child.matches(".bubble-btn")) return;
+
+          if (!child.hasAttribute("data-atropos-offset")) {
+            child.setAttribute("data-atropos-offset", String(Math.min(8, 2 + index * 2)));
+          }
+        });
+
+        card.querySelectorAll("img").forEach((image) => {
+          image.setAttribute("data-atropos-offset", "-2");
+        });
+
+        card.querySelectorAll("svg, i").forEach((icon) => {
+          if (icon.closest(".bubble-btn")) return;
+
+          icon.setAttribute("data-atropos-offset", "7");
+        });
+      }
+
+      function initAtroposCards() {
+        document.querySelectorAll(".card-elevate, .card-hover-only").forEach((card) => {
+          if (card.closest(".motion-atropos")) return;
+          if (card.classList.contains("participation-card")) return;
+
+          prepareCardDepth(card);
+
+          const wrapper = document.createElement("div");
+          wrapper.className = "atropos motion-atropos";
+
+          if (card.classList.contains("mx-auto") || card.className.includes("max-w-6xl")) {
+            wrapper.classList.add("motion-atropos-fit");
+          }
+
+          const scale = document.createElement("div");
+          const rotate = document.createElement("div");
+          const inner = document.createElement("div");
+
+          scale.className = "atropos-scale";
+          rotate.className = "atropos-rotate";
+          inner.className = "atropos-inner";
+
+          card.parentNode.insertBefore(wrapper, card);
+          inner.appendChild(card);
+          rotate.appendChild(inner);
+          scale.appendChild(rotate);
+          wrapper.appendChild(scale);
+        });
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (!window.Atropos || reduceMotion) return;
+
+        document.querySelectorAll(".motion-atropos").forEach((element) => {
+          if (element.dataset.atroposReady === "true") return;
+
+          element.dataset.atroposReady = "true";
+          Atropos({
+            el: element,
+            activeOffset: 36,
+            rotateXMax: 8,
+            rotateYMax: 10,
+            duration: 420,
+            shadow: false,
+            highlight: true,
+            rotateTouch: "scroll-y",
           });
-        },
-        { threshold: 0.16, rootMargin: "0px 0px -40px 0px" }
-      );
+        });
+      }
 
-      document.querySelectorAll(".scroll-reveal").forEach((element) => {
-        revealObserver.observe(element);
-      });
+      function initParticipationParallax() {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      document.querySelector("footer form").addEventListener("submit", (event) => {
+        if (reduceMotion) return;
+
+        document.querySelectorAll(".participation-card").forEach((card) => {
+          const resetCard = () => {
+            card.style.setProperty("--tilt-x", "0deg");
+            card.style.setProperty("--tilt-y", "0deg");
+            card.style.setProperty("--shine-x", "50%");
+            card.style.setProperty("--shine-y", "50%");
+            card.style.setProperty("--icon-x", "0px");
+            card.style.setProperty("--icon-y", "0px");
+            card.style.setProperty("--text-x", "0px");
+            card.style.setProperty("--text-y", "0px");
+          };
+
+          card.addEventListener("pointermove", (event) => {
+            if (event.target.closest(".bubble-btn")) {
+              resetCard();
+              return;
+            }
+
+            const rect = card.getBoundingClientRect();
+            const localX = event.clientX - rect.left;
+            const localY = event.clientY - rect.top;
+            const x = localX / rect.width - .5;
+            const y = localY / rect.height - .5;
+
+            card.style.setProperty("--tilt-x", `${(-y * 7).toFixed(2)}deg`);
+            card.style.setProperty("--tilt-y", `${(x * 8).toFixed(2)}deg`);
+            card.style.setProperty("--shine-x", `${localX}px`);
+            card.style.setProperty("--shine-y", `${localY}px`);
+            card.style.setProperty("--icon-x", `${(x * 10).toFixed(1)}px`);
+            card.style.setProperty("--icon-y", `${(y * 10).toFixed(1)}px`);
+            card.style.setProperty("--text-x", `${(x * 5).toFixed(1)}px`);
+            card.style.setProperty("--text-y", `${(y * 5).toFixed(1)}px`);
+          });
+
+          card.addEventListener("pointerleave", resetCard);
+          card.addEventListener("blur", resetCard, true);
+        });
+      }
+
+      function initCounterObserver() {
+        const counters = document.querySelectorAll(".counter");
+
+        if (!counters.length) return;
+
+        if (!("IntersectionObserver" in window)) {
+          counters.forEach(animateCounter);
+          return;
+        }
+
+        const counterObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                counterObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.35, rootMargin: "0px 0px -40px 0px" }
+        );
+
+        counters.forEach((counter) => {
+          counterObserver.observe(counter);
+        });
+      }
+
+      function initFallbackReveal() {
+        const revealObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.16, rootMargin: "0px 0px -40px 0px" }
+        );
+
+        document.querySelectorAll(".scroll-reveal").forEach((element) => {
+          revealObserver.observe(element);
+        });
+      }
+
+      function initGsapMotion() {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const canUseGsap = window.gsap && window.ScrollTrigger && !reduceMotion;
+
+        if (!canUseGsap) {
+          initFallbackReveal();
+          return;
+        }
+
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.defaults({ ease: "power3.out" });
+        document.documentElement.classList.add("motion-gsap");
+
+        gsap.set(".scroll-reveal", { autoAlpha: 0, y: 38, scale: 0.985 });
+
+        gsap.timeline({ defaults: { duration: .82 } })
+          .to("header", { y: 0, autoAlpha: 1, duration: .45, ease: "power2.out" }, 0)
+          .to("#inicio .scroll-reveal", {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            stagger: .12,
+            duration: .92,
+          }, .08);
+
+        const revealTargets = gsap.utils.toArray(".scroll-reveal").filter((element) => !element.closest("#inicio"));
+
+        ScrollTrigger.batch(revealTargets, {
+          start: "top 86%",
+          once: true,
+          onEnter: (batch) => {
+            batch.forEach((element) => {
+              element.classList.add("is-visible");
+            });
+
+            gsap.to(batch, {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: .78,
+              stagger: .09,
+              overwrite: true,
+            });
+          },
+        });
+
+        gsap.utils.toArray("#eventos img").forEach((image, index) => {
+          gsap.to(image, {
+            y: index % 2 === 0 ? -16 : 14,
+            rotate: index % 2 === 0 ? "-=2" : "+=2",
+            ease: "none",
+            scrollTrigger: {
+              trigger: "#eventos",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.2,
+            },
+          });
+        });
+
+        gsap.utils.toArray(".doodle").forEach((doodle, index) => {
+          gsap.to(doodle, {
+            y: index % 2 === 0 ? -24 : 22,
+            rotate: index % 2 === 0 ? 8 : -8,
+            ease: "none",
+            scrollTrigger: {
+              trigger: doodle.closest("section") || document.body,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.6,
+            },
+          });
+        });
+      }
+
+      initAtroposCards();
+      initParticipationParallax();
+      initGsapMotion();
+      initCounterObserver();
+
+      newsletterForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        const input = event.currentTarget.querySelector("input");
-        input.value = "";
-        input.placeholder = "Obrigado! Entraremos em contato.";
+        const email = newsletterInput.value.trim();
+
+        if (!email) {
+          newsletterInput.setAttribute("aria-invalid", "true");
+          openNewsletterModal("empty");
+          return;
+        }
+
+        if (!newsletterInput.checkValidity()) {
+          newsletterInput.setAttribute("aria-invalid", "true");
+          openNewsletterModal("invalid", email);
+          return;
+        }
+
+        newsletterInput.removeAttribute("aria-invalid");
+        openNewsletterModal("success", email);
+        newsletterInput.value = "";
       });
     </script>
   </body>
